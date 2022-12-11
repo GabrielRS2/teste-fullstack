@@ -4,12 +4,9 @@ import {
 	PrimaryGeneratedColumn,
 	CreateDateColumn,
 	OneToMany,
-    JoinColumn,
-    OneToOne,
 } from "typeorm";
 import { Exclude } from "class-transformer";
-import Contacts from "./contacts.entity";
-import ContactsUser from "./contactsUser.entity";
+import Contact from "./contact.entity";
 
 @Entity("user")
 class User {
@@ -32,11 +29,8 @@ class User {
 	@CreateDateColumn()
 	createdAt: Date;
 
-    @OneToOne(() => Contacts, {eager: true}) @JoinColumn()
-    contacts: Contacts
-
-	@OneToMany(() => ContactsUser, ContactsUser => ContactsUser.user)
-	isContact: ContactsUser[]
+	@OneToMany(() => Contact, contact => contact.user, {eager: true, onDelete: "CASCADE"})
+	contacts: Contact[]
 }
 
 export default User;
